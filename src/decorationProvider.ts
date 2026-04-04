@@ -7,9 +7,9 @@ export class ReadMarkDecorationProvider implements vscode.FileDecorationProvider
 
     constructor(private manager: ReadMarkManager) {}
 
-    refresh() {
+    refresh(uriList?: vscode.Uri[]) {
         // 传入 undefined 表示通知 VS Code 刷新所有当前可见的装饰
-        this.emitter.fire(undefined);
+        this.emitter.fire(uriList);
     }
 
     provideFileDecoration(uri: vscode.Uri): vscode.FileDecoration | undefined {

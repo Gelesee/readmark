@@ -10,10 +10,10 @@ export function activate(context: vscode.ExtensionContext) {
         if (!targetUri) return;
 
         // 执行连锁逻辑
-        manager.toggle(targetUri);
+        const uriList = manager.toggle(targetUri);
         
         // 全量刷新 UI
-        decorationProvider.refresh();
+        decorationProvider.refresh(uriList);
     });
 
     context.subscriptions.push(

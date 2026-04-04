@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import { diff } from 'util';
 
 export class ReadMarkManager {
     private readFiles: Set<string>;
@@ -14,18 +15,23 @@ export class ReadMarkManager {
     public toggle(uri: vscode.Uri) {
         const key = uri.toString();
         const isCurrentlyRead = this.readFiles.has(key);
-        console.log("isCurrentlyRead: " + isCurrentlyRead);
+        const oldreadFiles = new Set(this.readFiles); // 记录当前状态以便调试
         if (isCurrentlyRead) {
             // --- 执行取消逻辑 ---
             this.unmarkRecursive(uri);
             this.unmarkParents(uri);
+            vscode.window.showInformationMessage("❌ remove marked read");
         } else {
             this.markRecursive(uri);
             this.markParents(uri);
+            vscode.window.showInformationMessage('✅ add marked read');
         }
-
+        const addList = Array.from(this.readFiles).filter(x => !oldreadFiles.has(x));
+        const removeList = Array.from(oldreadFiles).filter(x => !this.readFiles.has(x));
+        const differenceList = addList.concat(removeList);
         // 最后把更新后的 Set 存回 globalState
         this.context.globalState.update('readFiles', Array.from(this.readFiles));
+        return differenceList.map(str => vscode.Uri.parse(str));
     }
 
     // --- 内部逻辑：向下递归 (Recursive Down) ---
@@ -34,7 +40,6 @@ export class ReadMarkManager {
         const key = uri.toString();
         const fsPath = uri.fsPath;
         this.readFiles.delete(key);
-        console.log("取消标记: " + key);
         if (fs.existsSync(fsPath) && fs.statSync(fsPath).isDirectory()) {
             const children = fs.readdirSync(fsPath);
             for (const childName of children) {
@@ -49,7 +54,6 @@ export class ReadMarkManager {
         const key = uri.toString();
         const fsPath = uri.fsPath;
         this.readFiles.add(key);
-        console.log("标记: " + key);
         if (fs.existsSync(fsPath) && fs.statSync(fsPath).isDirectory()) {
             const children = fs.readdirSync(fsPath);
             for (const childName of children) {
@@ -75,13 +79,11 @@ export class ReadMarkManager {
             if (this.checkAllChildrenMarked(currentUri)) {
                 // 如果全满了，标记当前文件夹
                 this.readFiles.add(currentUri.toString());
-                console.log(`[AutoMark] 文件夹已全满，标记父级: ${currentPath}`);
                 const nextParent = path.dirname(currentPath);
                 if (nextParent === currentPath) break;
                 currentPath = nextParent;
             } else {
                 // 只要遇到一个文件夹没满，就停止向上冒泡
-                console.log(`[Stop] 文件夹未全满，停止向上标记: ${currentPath}`);
                 break;
             }
         }
@@ -97,7 +99,6 @@ export class ReadMarkManager {
         while (true) {
             // 获取当前路径的父目录
             const parentPath = path.dirname(currentPath);
-            console.log("parentPath: " + parentPath);
             if (!parentPath.startsWith(rootPath) || parentPath === currentPath) {
                 break;
             }
@@ -106,7 +107,6 @@ export class ReadMarkManager {
 
             if (this.readFiles.has(parentKey)) {
                 this.readFiles.delete(parentKey);
-                console.log(`[UnmarkParent] 已取消父文件夹标记: ${parentPath}`);
             }
             currentPath = parentPath;
         }
