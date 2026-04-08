@@ -17,27 +17,25 @@
     "commands": [
       {
         "command": "readmark.toggleRead",
-        "title": "readmark.test"
+        "title": "readmark"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "readmark.toggleRead",
-          "group": "navigation",
+          "group": "z@9999",
           "when": "resourceScheme == file && !explorerResourceIsRoot"
         }
       ],
       "editor/context": [
         {
           "command": "readmark.toggleRead",
-          "group": "navigation"
+          "group": "z@9999"
         }
       ]
     }
   },
-  
-  
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
@@ -55,5 +53,8 @@
     "eslint": "^9.39.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": {
+    "vsce": "^2.15.0"
   }
 }

@@ -1,71 +1,42 @@
-# readmark README
+# File Mark Read 📖
 
-This is the README for your extension "readmark". After writing up a brief description, we recommend including the following sections.
+**File Mark Read** 是一款轻量级的 VS Code 扩展，旨在帮助开发者在大型项目或代码审查（Code Review）中轻松追踪阅读进度。通过简单的右键操作，即可为已处理的文件添加视觉标记。
 
-## Features
+## ✨ 功能特性
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* **右键快速标记**：在资源管理器（Explorer）或编辑器标题栏右键点击文件，即可一键标记为“已读”。
+* **状态可视化**：已读文件会在侧边栏资源管理器中显示专属图标或背景色变化（根据配置）。
+* **持久化存储**：标记状态会自动保存，即使重启 VS Code，你的阅读进度也不会丢失。
+* **一键重置**：支持清除单个或所有文件的阅读标记，方便重新开始。
 
-For example if there is an image subfolder under your extension project workspace:
+## 🚀 如何使用
 
-\!\[feature X\]\(images/feature-x.png\)
+1.  **标记文件**：
+    * 在左侧资源管理器中，右键点击任何文件。
+    * 选择菜单中的 **"Mark as Read" (标记为已读)**。
+2.  **取消标记**：
+    * 再次右键点击已标记的文件。
+    * 选择 **"Unmark Read" (取消标记)**。
+3.  **状态查看**：
+    * 被标记的文件旁边会出现一个特定的图标（如 ✅），提醒你该任务已完成。
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## 🛠️ 配置选项 (Settings)
 
-## Requirements
+你可以通过 VS Code 的设置界面调整以下参数：
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+* `fileMarkRead.icon`: 自定义已读标记的图标样式。
+* `fileMarkRead.color`: 自定义已读文件在列表中的文字颜色。
+* `fileMarkRead.showInEditorTab`: 是否在编辑器顶部的标签页也显示标记。
 
-## Extension Settings
+## ⌨️ 快捷键
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+| 功能 | 快捷键 |
+| :--- | :--- |
+| 标记/取消标记已读 | `Ctrl + Shift + M` (可自定义) |
 
-For example:
+## 📦 安装说明
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+1.  打开 VS Code。
+2.  进入扩展视图 (`Ctrl+Shift+X`)。
+3.  搜索 `File Mark Read`。
+4.  点击 **Install**。
